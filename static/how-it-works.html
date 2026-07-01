@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works | SHL Recommender</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body { overflow: auto; background: var(--bg-secondary); }
+
+        .page-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Nav Bar */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2.5rem;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 0.25rem; }
+        .nav-logo-text { font-size: 1.25rem; font-weight: 500; color: var(--text-primary); }
+        .nav-logo-dot { color: var(--accent-green); font-weight: 700; font-size: 1.25rem; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: var(--accent-green); }
+        .nav-link.active { color: var(--accent-green); border-bottom: 2px solid var(--accent-green); padding-bottom: 2px; }
+        .nav-cta {
+            background: var(--accent-green);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .nav-cta:hover { background: var(--accent-green-hover); }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+        .hero-eyebrow {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+        }
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+        }
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Steps */
+        .steps-section { margin: 3rem 0; }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .steps-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+        .step-card {
+            display: flex;
+            gap: 1.5rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .step-card:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 4px 12px rgba(59, 135, 62, 0.08);
+        }
+        .step-number {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            background: var(--accent-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .step-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .step-content p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Architecture */
+        .arch-section { margin: 3rem 0; }
+        .arch-pipeline {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            overflow-x: auto;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+        }
+        .arch-node {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+        }
+        .arch-node-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(59,135,62,0.1);
+            border: 1px solid rgba(59,135,62,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+            font-size: 1.4rem;
+        }
+        .arch-node-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .arch-node-sub {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        .arch-arrow {
+            color: var(--accent-green);
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            padding: 0 0.25rem;
+        }
+
+        /* FAQ / Tech */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+        .tech-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+        }
+        .tech-card h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .tech-card p {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* CTA */
+        .cta-section {
+            margin: 3rem 0;
+            background: var(--accent-green);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+        }
+        .cta-section h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .cta-section p { font-size: 1rem; opacity: 0.85; margin-bottom: 2rem; }
+        .cta-btn {
+            display: inline-block;
+            background: white;
+            color: var(--accent-green);
+            text-decoration: none;
+            padding: 0.85rem 2rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+        .cta-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <span class="nav-logo-text">SHL Recommender</span><span class="nav-logo-dot">.</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Chat</a>
+            <a href="/how-it-works" class="nav-link active">How It Works</a>
+        </div>
+        <a href="/" class="nav-cta">Try It Now</a>
+    </nav>
+
+    <div class="page-wrapper">
+
+        <!-- Hero -->
+        <div class="hero">
+            <p class="hero-eyebrow">Under the Hood</p>
+            <h1 class="hero-title">How the AI Recommender Works</h1>
+            <p class="hero-subtitle">
+                A conversational AI pipeline that maps your hiring context to the most relevant SHL assessments — using retrieval, grounded generation, and structured outputs.
+            </p>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps-section">
+            <h2 class="section-title">The Conversation Flow</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>You describe your hiring need</h3>
+                        <p>Start by telling the agent who you are hiring. You can be vague ("I need a test for a developer") or specific ("Mid-level Java developer with a focus on problem-solving and personality fit").</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>The AI clarifies when needed</h3>
+                        <p>If your request is too vague, the agent will ask a targeted clarifying question — like the seniority level, skills required, or specific test type. It never guesses when it doesn't have enough information.</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Catalog retrieval using TF-IDF search</h3>
+                        <p>Keywords extracted from your conversation are used to search the SHL product catalog using a TF-IDF similarity algorithm. The top 20 most relevant assessments are retrieved instantly, without any external API calls.</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Grounded recommendations are generated</h3>
+                        <p>The AI generates its final response using <em>only</em> the retrieved catalog items. It cannot hallucinate or recommend products that don't exist in SHL's catalog. Refine, compare, and adjust — the agent will update its recommendations based on your feedback.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Pipeline -->
+        <div class="arch-section">
+            <h2 class="section-title">Technical Architecture</h2>
+            <div class="arch-pipeline">
+                <div class="arch-node">
+                    <div class="arch-node-icon">💬</div>
+                    <div class="arch-node-label">User Message</div>
+                    <div class="arch-node-sub">Conversation History</div>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">🔍</div>
+                    <div class="arch-node-label">Extraction LLM</div>
+                    <div class="arch-node-sub">Gemini 2.5 Flash</div>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">📚</div>
+                    <div class="arch-node-label">TF-IDF Retrieval</div>
+                    <div class="arch-node-sub">Top 20 Results</div>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">✨</div>
+                    <div class="arch-node-label">Generation LLM</div>
+                    <div class="arch-node-sub">Structured JSON Output</div>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-node">
+                    <div class="arch-node-icon">📋</div>
+                    <div class="arch-node-label">Recommendations</div>
+                    <div class="arch-node-sub">Grounded & Verified</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="arch-section">
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>LLM</h4>
+                    <p>Google Gemini 2.5 Flash</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Backend API</h4>
+                    <p>Python + FastAPI + Uvicorn</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Retrieval</h4>
+                    <p>TF-IDF Cosine Similarity</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Frontend</h4>
+                    <p>Vanilla HTML, CSS & JavaScript</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Output Validation</h4>
+                    <p>Gemini Structured Outputs + Pydantic</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Deployment</h4>
+                    <p>Render (Python 3.11)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2>Ready to find the right assessment?</h2>
+            <p>Start a conversation with our AI and get grounded SHL recommendations in seconds.</p>
+            <a href="/" class="cta-btn">Open the Recommender →</a>
+        </div>
+
+    </div>
+</body>
+</html>

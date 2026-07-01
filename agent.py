@@ -124,8 +124,10 @@ def process_chat(request: ChatRequest) -> ChatResponse:
         
     except Exception as e:
         traceback.print_exc()
+        error_msg = str(e)
+        # Surface real error in reply so we can debug from the UI
         return ChatResponse(
-            reply="An internal error occurred while processing your request.",
+            reply=f"Internal error: {error_msg}",
             recommendations=[],
             end_of_conversation=False
         )

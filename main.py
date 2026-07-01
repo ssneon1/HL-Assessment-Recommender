@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.exceptions import HTTPException
 from dotenv import load_dotenv
 
 from models import ChatRequest, ChatResponse
@@ -26,9 +27,21 @@ def get_css():
 def get_js():
     return FileResponse("static/script.js")
 
+@app.get("/how-it-works")
+def how_it_works():
+    return FileResponse("static/how-it-works.html")
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+@app.exception_handler(404)
+async def not_found_handler(request: Request, exc: HTTPException):
+    return FileResponse("static/404.html", status_code=404)
+
+@app.exception_handler(500)
+async def server_error_handler(request: Request, exc: Exception):
+    return FileResponse("static/500.html", status_code=500)
 
 @app.post("/chat", response_model=ChatResponse)
 def chat_endpoint(request: ChatRequest):
