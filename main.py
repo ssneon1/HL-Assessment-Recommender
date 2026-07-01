@@ -11,12 +11,20 @@ load_dotenv()
 
 app = FastAPI(title="SHL Assessment Recommender")
 
-# Mount static files
+# Mount static files under /static (just in case)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def read_index():
     return FileResponse("static/index.html")
+
+@app.get("/styles.css")
+def get_css():
+    return FileResponse("static/styles.css")
+
+@app.get("/script.js")
+def get_js():
+    return FileResponse("static/script.js")
 
 @app.get("/health")
 def health_check():
