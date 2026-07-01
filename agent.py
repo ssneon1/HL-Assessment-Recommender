@@ -47,12 +47,23 @@ def process_chat(request: ChatRequest) -> ChatResponse:
         {history_text}
         """
         
+        SEARCH_QUERY_SCHEMA = types.Schema(
+            type=types.Type.OBJECT,
+            properties={
+                "is_in_scope":              types.Schema(type=types.Type.BOOLEAN),
+                "needs_clarification":      types.Schema(type=types.Type.BOOLEAN),
+                "search_keywords":          types.Schema(type=types.Type.ARRAY,  items=types.Schema(type=types.Type.STRING)),
+                "specific_assessment_names": types.Schema(type=types.Type.ARRAY, items=types.Schema(type=types.Type.STRING)),
+                "target_job_levels":        types.Schema(type=types.Type.ARRAY,  items=types.Schema(type=types.Type.STRING)),
+            }
+        )
+
         extraction_res = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=extraction_prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
-                response_schema=SearchQuery,
+                response_schema=SEARCH_QUERY_SCHEMA,
                 temperature=0.1
             ),
         )
@@ -101,12 +112,31 @@ def process_chat(request: ChatRequest) -> ChatResponse:
         {catalog_context}
         """
         
+        CHAT_RESPONSE_SCHEMA = types.Schema(
+            type=types.Type.OBJECT,
+            properties={
+                "reply": types.Schema(type=types.Type.STRING),
+                "end_of_conversation": types.Schema(type=types.Type.BOOLEAN),
+                "recommendations": types.Schema(
+                    type=types.Type.ARRAY,
+                    items=types.Schema(
+                        type=types.Type.OBJECT,
+                        properties={
+                            "name":      types.Schema(type=types.Type.STRING),
+                            "url":       types.Schema(type=types.Type.STRING),
+                            "test_type": types.Schema(type=types.Type.STRING),
+                        }
+                    )
+                ),
+            }
+        )
+
         final_res = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=generation_prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
-                response_schema=ChatResponse,
+                response_schema=CHAT_RESPONSE_SCHEMA,
                 temperature=0.2
             ),
         )
